@@ -265,14 +265,16 @@ def delete_annotation(id):
 def share_annotation(id):
     annotation = g.annotation_class.fetch(id)
     from lib import clip
+    import html2text
     # Someday put this in a background job
     clip_url = clip.make_clip(
         annotation['target']['src'],
         annotation['id'], 
         annotation['rangeTime']['start'], 
-        annotation['rangeTime']['end'])
-    print clip_url
-    return '', 200
+        annotation['rangeTime']['end'],
+        text=html2text.html2text(annotation['text'])
+        )
+    return jsonify({'url': clip_url}), 200
 
 
 # SEARCH

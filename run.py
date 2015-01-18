@@ -19,6 +19,7 @@ import sys
 import time
 
 from flask import Flask, g, current_app
+from flask.ext.cors import CORS
 import elasticsearch
 from annotator import es, annotation, auth, authz, document, store
 from tests.helpers import MockUser, MockConsumer, MockAuthenticator
@@ -36,6 +37,7 @@ here = os.path.dirname(__file__)
 
 def main():
     app = Flask(__name__)
+    cors = CORS(app)
 
     cfg_file = 'annotator.cfg'
     if len(sys.argv) == 2:
