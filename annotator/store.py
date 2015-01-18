@@ -261,6 +261,20 @@ def delete_annotation(id):
     return '', 204
 
 
+@store.route('/share/<id>', methods=['GET'])
+def share_annotation(id):
+    annotation = g.annotation_class.fetch(id)
+    from lib import clip
+    # Someday put this in a background job
+    clip_url = clip.make_clip(
+        annotation['target']['src'],
+        annotation['id'], 
+        annotation['rangeTime']['start'], 
+        annotation['rangeTime']['end'])
+    print clip_url
+    return '', 200
+
+
 # SEARCH
 @store.route('/search')
 def search_annotations():
